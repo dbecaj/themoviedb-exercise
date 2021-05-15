@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import Layout from "./components/Layout";
+import Movie from "./components/Movie";
+
+// https://www.themoviedb.org/t/p/w220_and_h330_face/6vcDalR50RWa309vBH1NLmG2rjQ.jpg
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <div className="w-14 h-14 bg-blue-500"></div>
-      </header>
-    </div>
+    <Layout>
+      { /* Filters */ }
+      <div class="flex">
+        <div class="bg-blue-500 mr-4">
+          <h1>Hello world</h1>
+        </div>
+
+        { /* Movies */ }
+        <div>
+          <Movie 
+            imgSrc="https://www.themoviedb.org/t/p/w220_and_h330_face/6vcDalR50RWa309vBH1NLmG2rjQ.jpg"
+            imgAlt="The Marksman"
+            title="The Marksman"
+            userScore="74"
+            releaseDate="15.05.2021"
+          />
+        </div>
+      </div>
+    </Layout>
   );
 }
 
