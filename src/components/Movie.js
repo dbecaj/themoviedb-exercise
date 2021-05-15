@@ -2,7 +2,7 @@ import React from "react"
 
 export default function Movie(props) {
   return (
-    <div class={`shadow-md border rounded-md overflow-hidden ${props.class}`}>
+    <div class={`shadow-md border rounded-md overflow-hidden ${props.class}`} style={{ width: 220 }}>
       <img src={props.imgSrc} alt={props.imgAlt} />
 
       <div class="mx-2 my-2">
