@@ -1,16 +1,41 @@
+import Genres from "./components/Genres";
 import Layout from "./components/Layout";
 import Movie from "./components/Movie";
+import SideBar from "./components/SideBar";
 
 // https://www.themoviedb.org/t/p/w220_and_h330_face/6vcDalR50RWa309vBH1NLmG2rjQ.jpg
+
+const genres = [
+  'Action',
+  'Advanture',
+  'Animation',
+  'Comedy',
+  'Crime',
+  'Documentary',
+  'Drama',
+  'Family',
+  'Fantasy',
+  'History',
+  'Horror',
+  'Music',
+  'Mystery',
+  'Romance',
+  'Science Fiction',
+  'TV Movie',
+  'Thriller',
+  'War',
+  'Western'
+]
 
 function App() {
   return (
     <Layout>
-      { /* Filters */}
       <div class="flex">
-        <div class="bg-blue-500 mr-8">
-          <h1>Hello world</h1>
-        </div>
+        <SideBar>
+          <h1 class="text-center text-2xl font-bold mb-4">Filters</h1>
+          <h3 class="text-lg font-bold">Genres</h3>
+          <Genres genres={genres} />
+        </SideBar>
 
         { /* Movies */}
         <div class="w-full grid gap-x-8 gap-y-12 justify-around" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(220px, auto))" }}>
