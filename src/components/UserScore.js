@@ -14,7 +14,12 @@ export default function UserScore(props) {
         max="100" 
         step="5"
         value={minScore}
-        onChange={(event) => { setMinScore(event.target.value) }} ></input>
+        onChange={(event) => { 
+          const value = event.target.value
+          setMinScore(value)
+
+          props.onChange(value)
+        }} ></input>
     </div>
   )
 }

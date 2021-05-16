@@ -12,7 +12,7 @@ export default function Pagination(props) {
         </li>
 
         {Array.from(Array(9)).map((v, index) => {
-          const offsetIndex = props.currentPage + index
+          const offsetIndex = props.currentPage + index + 1
 
           return (
             <li>
@@ -21,7 +21,7 @@ export default function Pagination(props) {
                 active:rounded-md active:bg-green-500 active:text-white 
                 hover:rounded-md hover:bg-gray-200`}
 
-                href={`/?page=${offsetIndex}`}>{offsetIndex + 1}</a>
+                href={`/?page=${offsetIndex}`}>{offsetIndex}</a>
             </li>
           )
         })}

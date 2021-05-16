@@ -31,25 +31,29 @@ const genres = [
 ]
 
 function App() {
+  const query = new URLSearchParams(window.location.search)
+  const page = query.get("page") || 1
+  var selectedGenres = query.get("genres") || []
+  var userScore = query.get("userScore") || 0
+
   const [movies, setMovies] = useState([])
 
   useEffect(() => {
+    var url = new URL('https://api.themoviedb.org/3/movie/now_playing')
+    var params = { page }
+    url.search = new URLSearchParams(params).toString()
+
     if (movies.length === 0) {
-      fetch('https://api.themoviedb.org/3/movie/now_playing', {
+      fetch(url, {
         method: 'GET',
         headers: new Headers({
           'Authorization': `Bearer ${TMDB_API_KEY}`,
           'Content-Type': 'application/json;charset=utf-8'
         })
       }).then(response => response.json())
-        .then(data => {
-          console.log("got data!")
-          setMovies(data)
-        })
+        .then(data => setMovies(data))
     }
   })
-
-  console.log("render")
 
   return (
     <Layout>
@@ -58,10 +62,10 @@ function App() {
           <h1 class="text-center text-2xl font-bold mb-4">Filters</h1>
 
           <h3 class="text-lg font-bold">Genres</h3>
-          <Genres genres={genres} allSelected={[]} />
+          <Genres genres={genres} allSelected={[]} onChange={newSelected => selectedGenres = newSelected} />
 
           <h3 class="text-lg font-bold my-4">User score</h3>
-          <UserScore score={0} />
+          <UserScore score={0} onChange={value => userScore = value}/>
 
           <button type="button" class="w-full mt-8 p-2 bg-blue-500 text-white font-bold text-xl rounded-lg">Search</button>
         </SideBar>
@@ -70,7 +74,6 @@ function App() {
         <div class="w-full">
           <div class="grid gap-x-8 gap-y-12 justify-around" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(220px, auto))" }}>
             {movies.results?.map(movie => {
-              console.log(movie)
               return (
                 <Movie
                   imgSrc={`https://www.themoviedb.org/t/p/w220_and_h330_face${movie.poster_path}`}

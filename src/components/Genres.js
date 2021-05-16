@@ -35,7 +35,11 @@ export default function Genres(props) {
         return (
           <li class="inline-flex mr-3 mt-3">
             <GenreItem name={genreName} selected={allSelected.includes(genreName)} onClick={() => {
-              setAllSelected(selectGenre(allSelected, genreName)) 
+              const newSelected = selectGenre(allSelected, genreName)
+              setAllSelected(newSelected)
+
+              // Propagate event to parent
+              props.onChange(newSelected)
             }} />
           </li>
         )
