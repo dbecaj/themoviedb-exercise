@@ -18,12 +18,12 @@ function GenreItem(props) {
   )
 }
 
-function selectGenre(allSelected, genreName) {
-  if (allSelected.includes(genreName)) {
-    return allSelected.filter(value => value !== genreName)
+function selectGenre(allSelected, genreId) {
+  if (allSelected.includes(genreId)) {
+    return allSelected.filter(value => value !== genreId)
   }
 
-  return allSelected.concat(genreName)
+  return allSelected.concat(genreId)
 }
 
 export default function Genres(props) {
@@ -31,11 +31,11 @@ export default function Genres(props) {
 
   return (
     <ul>
-      {props.genres.map(genreName => {
+      {props.genres.map(genre => {
         return (
           <li class="inline-flex mr-3 mt-3">
-            <GenreItem name={genreName} selected={allSelected.includes(genreName)} onClick={() => {
-              const newSelected = selectGenre(allSelected, genreName)
+            <GenreItem name={genre.name} selected={allSelected.includes(genre.id.toString())} onClick={() => {
+              const newSelected = selectGenre(allSelected, genre.id.toString())
               setAllSelected(newSelected)
 
               // Propagate event to parent

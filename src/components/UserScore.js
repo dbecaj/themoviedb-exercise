@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import "./UserScore.css"
 
 export default function UserScore(props) {
-  const [minScore, setMinScore] = useState(props.score)
+  const [minScore, setMinScore] = useState(props.score*100)
 
   return (
     <div class={`flex flex-col items-center ${props.class}`}>
@@ -18,7 +18,7 @@ export default function UserScore(props) {
           const value = event.target.value
           setMinScore(value)
 
-          props.onChange(value)
+          props.onChange(value/100)
         }} ></input>
     </div>
   )
