@@ -1,6 +1,6 @@
 import React from "react"
 
-export default function Layout({ children }) {
+export default function Layout(props) {
   return (
     <div class="
     mx-auto 
@@ -8,7 +8,7 @@ export default function Layout({ children }) {
     pt-16 pb-24 
     px-4
   ">
-      { children }
+      { props.children }
     </div>
   )
 }
