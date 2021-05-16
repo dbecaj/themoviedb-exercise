@@ -5,8 +5,6 @@ import Pagination from "./components/Pagination";
 import SideBar from "./components/SideBar";
 import UserScore from "./components/UserScore";
 
-// https://www.themoviedb.org/t/p/w220_and_h330_face/6vcDalR50RWa309vBH1NLmG2rjQ.jpg
-
 const genres = [
   'Action',
   'Advanture',
@@ -37,7 +35,7 @@ function App() {
           <h1 class="text-center text-2xl font-bold mb-4">Filters</h1>
 
           <h3 class="text-lg font-bold">Genres</h3>
-          <Genres genres={genres} />
+          <Genres genres={genres} allSelected={[]} />
 
           <h3 class="text-lg font-bold my-4">User score</h3>
           <UserScore score={0}/>
