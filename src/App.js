@@ -40,7 +40,7 @@ function App() {
           <Genres genres={genres} />
 
           <h3 class="text-lg font-bold my-4">User score</h3>
-          <UserScore />
+          <UserScore score={0}/>
 
           <button type="button" class="w-full mt-8 p-2 bg-blue-500 text-white font-bold text-xl rounded-lg">Search</button>
         </SideBar>
