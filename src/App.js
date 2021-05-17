@@ -6,7 +6,7 @@ import Scrollable from "./components/Scrollable";
 import SearchButton from "./components/SearchButton";
 import SideBar from "./components/SideBar";
 import UserScore from "./components/UserScore";
-import { fetchGenres, fetchMovies } from "./TmdbApi";
+import { fetchMovies } from "./TmdbApi";
 
 function App() {
   const page = useRef(1)
@@ -14,10 +14,11 @@ function App() {
   var selectedGenres = useRef([])
   var userScore = useRef(0)
 
-  const [movies, setMovies] = useState([])
-  const [genres, setGenres] = useState([])
+  const [movies, setMovies] = useState(undefined)
 
   function handleSearch() {
+    page.current = 1
+
     fetchMovies(page.current, selectedGenres.current, userScore.current).then(data => {
       totalPages.current = data.total_pages
 
@@ -26,9 +27,10 @@ function App() {
   }
 
   function loadMovies() {
+    page.current = page.current + 1
     if (page.current <= totalPages.current) {
       console.log("Loading movies")
-      fetchMovies(page.current++, selectedGenres.current, userScore.current).then(data => {
+      fetchMovies(page.current, selectedGenres.current, userScore.current).then(data => {
         totalPages.current = data.total_pages
         setMovies(movies.concat(data.results))
       })
@@ -36,14 +38,10 @@ function App() {
   }
 
   useEffect(() => {
-    if (genres.length === 0) {
-      fetchGenres().then(data => setGenres(data.genres))
-    }
-
-    if (movies.length === 0) {
-      fetchMovies(page.current++, selectedGenres.current, userScore.current).then(data => {
+    if (!movies) {
+      fetchMovies(1, selectedGenres.current, userScore.current).then(data => {
         totalPages.current = data.total_pages
-        setMovies(movies.concat(data.results))
+        setMovies(data.results)
       })
     }
   })
@@ -55,9 +53,9 @@ function App() {
           <h1 class="text-center text-2xl font-bold mb-4">Filters</h1>
 
           <h3 class="text-lg font-bold">Genres</h3>
-          <Genres genres={genres} selected={selectedGenres.current} onChange={newSelected => selectedGenres.current = newSelected } />
+          <Genres selected={selectedGenres.current} onChange={newSelected => selectedGenres.current = newSelected } />
 
-          <h3 class="text-lg font-bold my-4">User score</h3>
+          <h3 class="text-lg font-bold my-4">Min user score</h3>
           <UserScore score={userScore.current} onChange={value => userScore.current = value} />
 
           <SearchButton class="mt-8" onClick={handleSearch} />
@@ -65,7 +63,7 @@ function App() {
         
         <Scrollable class="w-full" onBottom={loadMovies}>
           <div id="movies" class="grid gap-x-8 gap-y-12 justify-aroundk" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(220px, auto))" }}>
-            {movies.map(movie => {
+            {movies?.map(movie => {
               return (
                 <Movie
                   imgSrc={`https://www.themoviedb.org/t/p/w220_and_h330_face${movie.poster_path}`}

@@ -16,7 +16,11 @@ export async function fetchGenres() {
 
 export async function fetchMovies(page, selectedGenres, userScore) {
   var discoverUrl = new URL('https://api.themoviedb.org/3/discover/movie')
-  var discoverParams = { page, with_genres: selectedGenres.map(genre => parseInt(genre)).join(','), 'vote_count.gte': userScore }
+  var discoverParams = {
+    page,
+    with_genres: selectedGenres.map(genre => parseInt(genre)).join(','),
+    'vote_average.gte': userScore / 10
+  }
   discoverUrl.search = new URLSearchParams(discoverParams).toString()
   console.log(discoverUrl)
 

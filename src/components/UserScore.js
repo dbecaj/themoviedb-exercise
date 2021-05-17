@@ -2,13 +2,13 @@ import React, { useState } from "react"
 import "./UserScore.css"
 
 export default function UserScore(props) {
-  const [minScore, setMinScore] = useState(props.score * 100)
+  const [minScore, setMinScore] = useState(props.score)
 
   function handleChange(event) {
     const value = event.target.value
     setMinScore(value)
 
-    props.onChange(value / 100)
+    props.onChange(value)
   }
 
   return (

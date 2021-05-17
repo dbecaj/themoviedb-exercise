@@ -1,4 +1,5 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
+import { fetchGenres } from "../TmdbApi";
 
 function GenreItem(props) {
   const buttonStyle = `
@@ -19,6 +20,7 @@ function GenreItem(props) {
 }
 
 export default function Genres(props) {
+  const [genres, setGenres] = useState(undefined)
   const [selected, setSelected] = useState(props.selected)
 
   function handleSelect(genre) {
@@ -32,11 +34,17 @@ export default function Genres(props) {
     props.onChange(newSelected)
   }
 
+  useEffect(() => {
+    if (!genres) {
+      fetchGenres().then(data => setGenres(data.genres))
+    }
+  })
+
   return (
     <ul>
-      {props.genres.map(genre => {
+      {genres?.map(genre => {
         return (
-          <li class="inline-flex mr-3 mt-3">
+          <li key={genre.id} class="inline-flex mr-3 mt-3">
             <GenreItem
               name={genre.name}
               isSelected={selected.includes(genre.id)}
