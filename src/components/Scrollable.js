@@ -9,7 +9,7 @@ export default function Scrollable(props) {
     const wrappedElement = document.getElementById('scrollable');
     if (isBottom(wrappedElement)) {
       document.removeEventListener("scroll", handleScrolling)
-  
+
       props.onBottom()
     }
   }

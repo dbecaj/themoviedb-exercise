@@ -4,12 +4,12 @@ function GenreItem(props) {
   const buttonStyle = `
   border
   border-black 
-    rounded-2xl 
-    p-1.5 
-    justify-center
-    ${props.selected ? 'bg-blue-500 text-white' : ''} 
-    ${props.class}
-    `
+  rounded-2xl 
+  p-1.5 
+  justify-center
+  ${props.isSelected ? 'bg-blue-500 text-white' : ''} 
+  ${props.class}
+  `
 
   return (
     <button class={buttonStyle} onClick={props.onClick}>
@@ -18,29 +18,30 @@ function GenreItem(props) {
   )
 }
 
-function selectGenre(allSelected, genreId) {
-  if (allSelected.includes(genreId)) {
-    return allSelected.filter(value => value !== genreId)
-  }
-
-  return allSelected.concat(genreId)
-}
-
 export default function Genres(props) {
-  const [allSelected, setAllSelected] = useState(props.allSelected)
+  const [selected, setSelected] = useState(props.selected)
+
+  function handleSelect(genre) {
+    const newSelected = selected.filter(value => value !== genre.id)
+    if (newSelected.length === selected.length) {
+      newSelected.push(genre.id)
+    }
+    setSelected(newSelected)
+
+    // Propagate event to parent
+    props.onChange(newSelected)
+  }
 
   return (
     <ul>
       {props.genres.map(genre => {
         return (
           <li class="inline-flex mr-3 mt-3">
-            <GenreItem name={genre.name} selected={allSelected.includes(genre.id.toString())} onClick={() => {
-              const newSelected = selectGenre(allSelected, genre.id.toString())
-              setAllSelected(newSelected)
-
-              // Propagate event to parent
-              props.onChange(newSelected)
-            }} />
+            <GenreItem
+              name={genre.name}
+              isSelected={selected.includes(genre.id)}
+              onClick={() => { handleSelect(genre) }}
+            />
           </li>
         )
       })}

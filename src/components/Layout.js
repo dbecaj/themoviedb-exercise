@@ -9,7 +9,7 @@ export default function Layout(props) {
     px-4
     ${props.class}
   `}>
-      { props.children }
+      { props.children}
     </div>
   )
 }
