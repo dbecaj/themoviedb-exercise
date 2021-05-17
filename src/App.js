@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
-import { useHistory } from "react-router";
 import Genres from "./components/Genres";
 import Layout from "./components/Layout";
 import Movie from "./components/Movie";
-import Pagination from "./components/Pagination";
 import SearchButton from "./components/SearchButton";
 import SideBar from "./components/SideBar";
 import UserScore from "./components/UserScore";
@@ -11,12 +9,9 @@ import UserScore from "./components/UserScore";
 const TMDB_API_KEY = process.env.REACT_APP_TMDB_API_KEY
 
 function App() {
-  const history = useHistory()
-
-  const query = new URLSearchParams(window.location.search)
-  const page = query.get("page") || 1
-  var selectedGenres = query.get("genres")?.split(',') || []
-  var userScore = query.get("userScore") || 0
+  const page = 1
+  var selectedGenres =  []
+  var userScore =  0
 
   const [movies, setMovies] = useState(undefined)
   const [genres, setGenres] = useState([])
@@ -44,7 +39,7 @@ function App() {
           'Content-Type': 'application/json;charset=utf-8'
         })
       }).then(response => response.json())
-        .then(data => setMovies(data.results))
+        .then(data => setMovies(data))
     }
   })
 
@@ -63,18 +58,13 @@ function App() {
           <h3 class="text-lg font-bold my-4">User score</h3>
           <UserScore score={userScore} onChange={value => userScore = value} />
 
-          <SearchButton class="mt-8" onClick={() => {
-            const params = { page: 1, genres: selectedGenres.join(','), userScore }
-            const paramString = new URLSearchParams(params).toString()
-            history.push(`/?${paramString}`)
-            setMovies(undefined)
-          }} />
+          <SearchButton class="mt-8" onClick={() => setMovies(undefined)} />
         </SideBar>
 
         { /* Movies */}
         <div class="w-full">
           <div class="grid gap-x-8 gap-y-12 justify-around" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(220px, auto))" }}>
-            {movies?.map(movie => {
+            {movies?.results.map(movie => {
               return (
                 <Movie
                   imgSrc={`https://www.themoviedb.org/t/p/w220_and_h330_face${movie.poster_path}`}
@@ -86,8 +76,6 @@ function App() {
               )
             })}
           </div>
-
-          <Pagination class="mt-8" currentPage={0} />
         </div>
 
       </div>
